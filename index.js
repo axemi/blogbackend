@@ -2,12 +2,13 @@ require("dotenv").config()
 const express = require("express")
 const app = express()
 const path = require("path")
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 4000
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
 const knexconfig = require("./knexfile")[process.env.NODE_ENV || "production"]
 const db = require("knex")(knexconfig)
-
+const cors = require("cors")
+app.use(cors())
 app.use(express.json())
 app.get("/", (req, res) => {
     res.send("Connected!")
@@ -84,8 +85,11 @@ app.get("/posts/:username", async (req, res) => {
 })
 app.get("/posts", async (req, res) => {
     try {
-        //todo: get usernames
         let posts = await db("posts").select()
+        for (let i = 0; i < posts.length; i++) {
+            let user = await db("users").select("username").where({id: posts[i].userid})
+            posts[i] = {username: user[0].username, ...posts[i]}
+        }
         res.json({posts})
     } catch(err) {
         console.log(err)
