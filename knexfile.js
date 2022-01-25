@@ -16,11 +16,10 @@ module.exports = {
   },
 
   staging: {
-    client: 'postgresql',
+    client: 'pg',
     connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
+      connectString: process.env.DATABASE_URL,
+      ssl: {rejectUnauthorized: false}
     },
     pool: {
       min: 2,
@@ -32,7 +31,7 @@ module.exports = {
   },
 
   production: {
-    client: 'postgresql',
+    client: 'pg',
     connection: {
       connectString: process.env.DATABASE_URL,
       ssl: {rejectUnauthorized: false}
