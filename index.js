@@ -2,7 +2,7 @@ require("dotenv").config()
 const express = require("express")
 const app = express()
 const path = require("path")
-const port = process.env.PORT | 3000
+const port = process.env.PORT || 3000
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
 const knexconfig = require("./knexfile")[process.env.NODE_ENV || "development"]
