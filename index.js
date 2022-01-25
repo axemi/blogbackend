@@ -5,7 +5,7 @@ const path = require("path")
 const port = process.env.PORT | 3000
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
-const knexconfig = require("../knexfile")["development"]
+const knexconfig = require("./knexfile")[process.env.NODE_ENV || "development"]
 const db = require("knex")(knexconfig)
 
 app.use(express.json())
