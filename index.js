@@ -71,12 +71,10 @@ app.get("/posts/:username", async (req, res) => {
         let users = await db("users").select().where({username: username})
         if (users.length > 0 ) {
             let posts = await db("posts").select().where({userid: users[0].id})
-            let user = {
-                first_name: users[0].first_name,
-                last_name: users[0].last_name,
-                username: users[0].username
+            for (let i = 0; i < posts.length; i++) {
+                posts[i] = {username: username, ...posts[i]}
             }
-            res.json({...user,posts})
+            res.json({posts})
         }
     } catch(err) {
         console.log(err)
